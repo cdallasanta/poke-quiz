@@ -14,6 +14,7 @@ class Quiz:
     # if it's in scraped_pokemon, serve pokemon to quiz
     answer_pokemon = next((p for p in self.scraped_pokemon if p["id"] == poke_id+1), None)
     if answer_pokemon:
+      pdb.set_trace
       pass
       # move on
     else:
