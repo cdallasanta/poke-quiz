@@ -1,9 +1,9 @@
 from pokemon import Pokemon
-from scraper import Scraper
+from quiz import Quiz
 
 def main():
-  scraper = Scraper()
-  scraper.run()
+  quiz = Quiz()
+  quiz.run()
 
 if __name__ == "__main__":
   main()

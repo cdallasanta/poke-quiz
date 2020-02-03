@@ -4,13 +4,8 @@ from pokemon import Pokemon
 import pdb
 
 class Scraper:
-  all_pokemon = []
-  national_dex = []
-
-  def __init__(self):
-    self.get_pokemon_list()
-
-  def get_pokemon_list(self):
+  def set_national_dex(self):
+    national_dex = []
     url = "https://pokemondb.net/pokedex/national"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -22,19 +17,12 @@ class Scraper:
         "id": poke_id,
         "name": poke_name
       })
-
-  def run(self):
-    self.fetch_pokemon_data(1)
-    # pick random number from 0 - len(national_dex)
-    # if it's in all_pokemon, serve it to quiz
-    # else, send to fetch_pokemon_data(id)
-
-    # quiz part here: ______
-    pass
+      
+    return national_dex
 
   def fetch_pokemon_data(self, id):
     poke_name = self.national_dex[id-1]["name"]
-    url = "https://www.pokemon.com/us/pokedex/{}".format(poke_name)
+    url = "https://www.pokemon.com/us/pokedex/{}".format(poke_name.replace('. ', '-'))
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     data = self.gather_data(soup, id, poke_name)
