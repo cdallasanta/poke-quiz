@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from pokemon import Pokemon
 import pdb
 
 class Scraper:
@@ -23,6 +24,7 @@ class Scraper:
       })
 
   def run(self):
+    self.fetch_pokemon_data(1)
     # pick random number from 0 - len(national_dex)
     # if it's in all_pokemon, serve it to quiz
     # else, send to fetch_pokemon_data(id)
@@ -31,10 +33,27 @@ class Scraper:
     pass
 
   def fetch_pokemon_data(self, id):
-    # get name from national_dex
-    # fetch from https://www.pokemon.com/us/pokedex/{name}
-    # send to create_pokemon
-    pass
+    poke_name = self.national_dex[id-1]["name"]
+    url = "https://www.pokemon.com/us/pokedex/{}".format(poke_name)
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-  def create_pokemon(self, data):
+    types = []
+    for weakness in soup.find('div', 'dtm-type').find_all('a'):
+      types.append(weakness.text.strip().lower())
+
+    weaknesses = []
+    for weakness in soup.find('div', 'dtm-weaknesses').find_all('a'):
+      weaknesses.append(weakness.text.strip().lower())
+
+    data = ({
+      "id": id,
+      "name": poke_name,
+      "types": types,
+      "weaknesses": weaknesses
+    })
+
+    self.create_pokemon(data)
+
+  def create_pokemon(self, p_data):
     self.all_pokemon.append(Pokemon(p_data))
