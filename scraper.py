@@ -37,7 +37,11 @@ class Scraper:
     url = "https://www.pokemon.com/us/pokedex/{}".format(poke_name)
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
+    data = self.gather_data(soup, id, poke_name)
 
+    self.create_pokemon(data)
+
+  def gather_data(self, soup, id, poke_name):
     types = []
     for weakness in soup.find('div', 'dtm-type').find_all('a'):
       types.append(weakness.text.strip().lower())
@@ -53,7 +57,7 @@ class Scraper:
       "weaknesses": weaknesses
     })
 
-    self.create_pokemon(data)
+    return data
 
   def create_pokemon(self, p_data):
     self.all_pokemon.append(Pokemon(p_data))
