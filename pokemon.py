@@ -1,5 +1,3 @@
-import pdb
-
 class Pokemon:
   all_types = [
     "normal",
