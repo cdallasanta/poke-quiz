@@ -1,5 +1,9 @@
+from pokemon import Pokemon
+from scraper import Scraper
+
 def main():
-  pass
+  scraper = Scraper()
+  # scraper.run()
 
 if __name__ == "__main__":
   main()
