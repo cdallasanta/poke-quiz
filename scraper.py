@@ -21,7 +21,7 @@ class Scraper:
     return national_dex
 
   def fetch_pokemon_data(self, pokemon):
-    url = "https://www.pokemon.com/us/pokedex/{}".format(pokemon["name"].replace('. ', '-'))
+    url = "https://www.pokemon.com/us/pokedex/{}".format(pokemon["name"].replace(' ', '-').replace('.', ''))
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     data = self.gather_data(soup, pokemon)
