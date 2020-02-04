@@ -84,6 +84,7 @@ class Quiz:
       if answer == "help":
         self.list_types()
         answer = ""
+        print("What super effective against \033[1;37;40m{}\033[0m?".format(self.answer_pokemon.name.title()))
     return answer
 
   def check_answer(self, answer):
@@ -93,17 +94,24 @@ class Quiz:
       return self.answer_pokemon.is_weak_to(answer)
     
   def list_types(self):
-    print(", ".join(Pokemon.all_types))
+    types = []
+    for type in Pokemon.all_types:
+    
+      types.append(self.colors[type] + type + "\033[0m")
+    print("All types: {}".format(", ".join(types))) 
   
   def ending(self, correct_answer):
     if correct_answer:
       print("\nCongratulations, you are correct!")
     else:
-      print("\nSorry, that is not listed in the pokemon's weaknesses. They were:")
+      if self.all_answers:
+        print("\nSorry, that was not all of the pokemon's weaknesses. They were:")
+      else:
+        print("\nSorry, that is not in the list of the pokemon's weaknesses. They were:")
       weaknesses = []
       for weakness in self.answer_pokemon.weaknesses:
         weaknesses.append(self.colors[weakness] + weakness + "\033[0m")
-      print("Pokemon's types(s): {}".format(", ".join(weaknesses))) 
+      print("Pokemon's weaknesses: {}".format(", ".join(weaknesses))) 
     
     replay = input("Would you like to play again? (y/n): ").lower()
     while not replay in ["yes", "y", "no", "n"]:
