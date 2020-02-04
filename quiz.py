@@ -1,7 +1,6 @@
 from scraper import Scraper
 from pokemon import Pokemon
 import random
-import pdb
 
 class Quiz:
   colors = {
@@ -40,6 +39,7 @@ class Quiz:
 
   def setup(self):
     # TODO: currently not using the most recent generation until pokemon.com/pokedex is updated 
+    # replace the following two lines when it is
     # poke_id = random.randint(1,len(self.national_dex))
     poke_id = random.randint(1,809)
     self.answer_pokemon = self.find_from_scraped(poke_id)
@@ -97,9 +97,9 @@ class Quiz:
   
   def ending(self, correct_answer):
     if correct_answer:
-      print("Congratulations, you are correct!")
+      print("\nCongratulations, you are correct!")
     else:
-      print("Sorry, that is not listed in the pokemon's weaknesses. They were:")
+      print("\nSorry, that is not listed in the pokemon's weaknesses. They were:")
       weaknesses = []
       for weakness in self.answer_pokemon.weaknesses:
         weaknesses.append(self.colors[weakness] + weakness + "\033[0m")
