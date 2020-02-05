@@ -27,7 +27,7 @@ class Scraper:
     soup = BeautifulSoup(response.text, 'html.parser')
     data = self.gather_data(soup, pokemon)
 
-    return self.create_pokemon(data)
+    return self.Pokemon(data)
   
   def sanitize(self, name):
     dict = {
@@ -59,9 +59,6 @@ class Scraper:
     })
 
     return data
-
-  def create_pokemon(self, p_data):
-    return Pokemon(p_data)
 
 if __name__ == '__main__':
   # testing that all pokemon can be scraped, in case there are url changes or weird names
