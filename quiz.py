@@ -21,7 +21,10 @@ class Quiz:
     "steel": "\033[1;37;40m",
     "ice": "\033[1;36;40m",
     "dragon": "\033[1;34;40m",
-    "fairy": "\033[1;33;40m"
+    "fairy": "\033[1;33;40m",
+    "correct": "\033[1;32;40m",
+    "incorrect": "\033[1;31;40m",
+    "reset": "\033[0m"
   }
 
   def __init__(self, show_types, all_answers):
@@ -55,19 +58,19 @@ class Quiz:
     
   def rules(self):
     print("")
-    print("{}Welcome trainer, to the Pokemon Types Quiz!{}".format("\033[1;37;40m", "\033[0m"))
+    print("{}Welcome trainer, to the Pokemon Types Quiz!{}".format(self.colors["normal"], self.colors["reset"]))
     print("You will be presented with a pokemon's name{}, and must guess what type{} effective against it".format((" and types" if self.show_types else ""), ("s are" if self.all_answers else " is")))
   
   def question(self):
     print("")
-    print("Pokemon's name: \033[1;37;40m{}\033[0m".format(self.answer_pokemon.name.title()))
+    print("Pokemon's name: {}{}{}".format(self.colors["normal"], self.answer_pokemon.name.title(), self.colors["reset"]))
     if self.show_types:
       types = []
       for type in self.answer_pokemon.types:
-        types.append(self.colors[type] + type + "\033[0m")
+        types.append(self.colors[type] + type + self.colors["reset"])
       print("Pokemon's types(s): {}".format(" & ".join(types))) 
 
-    print("What super effective against \033[1;37;40m{}\033[0m?".format(self.answer_pokemon.name.title()))
+    print("What super effective against {}{}{}".format(self.colors["normal"], self.answer_pokemon.name.title(), self.colors["reset"]))
     if self.all_answers:
       print("Enter all possible answers, seperated by a comma and a space (e.g. \"fire, water, bug\")")
       answer = self.validate_answer()
@@ -84,7 +87,7 @@ class Quiz:
       if answer == "help":
         self.list_types()
         answer = ""
-        print("What super effective against \033[1;37;40m{}\033[0m?".format(self.answer_pokemon.name.title()))
+        print("What super effective against {}{}{}".format(self.colors["normal"], self.answer_pokemon.name.title(), self.colors["reset"]))
     return answer
 
   def check_answer(self, answer):
@@ -97,20 +100,21 @@ class Quiz:
     types = []
     for type in Pokemon.all_types:
     
-      types.append(self.colors[type] + type + "\033[0m")
+      types.append(self.colors[type] + type + self.colors["reset"])
     print("All types: {}".format(", ".join(types))) 
   
   def ending(self, correct_answer):
+    print()
     if correct_answer:
-      print("\nCongratulations, you are correct!")
+      print(self.colors["correct"] + "Congratulations, you are correct!" + self.colors["reset"])
     else:
       if self.all_answers:
-        print("\nSorry, that was not all of the pokemon's weaknesses. They were:")
+        print(self.colors["incorrect"] + "Sorry, that was not all of the pokemon's weaknesses. They were:" + self.colors["reset"])
       else:
-        print("\nSorry, that is not in the list of the pokemon's weaknesses. They were:")
+        print(self.colors["incorrect"] + "Sorry, that is not in the list of the pokemon's weaknesses. They were:" + self.colors["reset"])
       weaknesses = []
       for weakness in self.answer_pokemon.weaknesses:
-        weaknesses.append(self.colors[weakness] + weakness + "\033[0m")
+        weaknesses.append(self.colors[weakness] + weakness + self.colors["reset"])
       print("Pokemon's weaknesses: {}".format(", ".join(weaknesses))) 
     
     replay = input("Would you like to play again? (y/n): ").lower()
