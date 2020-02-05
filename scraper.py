@@ -67,6 +67,13 @@ if __name__ == '__main__':
   # testing that all pokemon can be scraped, in case there are url changes or weird names
   scraper = Scraper()
   n_dex = scraper.set_national_dex()
-  for p in n_dex:
+  for i, p in enumerate(n_dex):
     print(p["name"])
-    scraper.fetch_pokemon_data(p)
+    try:
+      scraper.fetch_pokemon_data(p)
+    except AttributeError:
+      if p["name"] == "grookey":
+        print("Generations 1-7 passed, Gen 8 failed as expected")
+      else:
+        print("Failed at #{} - {}".format(p["id"], p["name"]))
+      break
