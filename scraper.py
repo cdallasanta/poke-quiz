@@ -27,7 +27,7 @@ class Scraper:
     soup = BeautifulSoup(response.text, 'html.parser')
     data = self.gather_data(soup, pokemon)
 
-    return self.Pokemon(data)
+    return Pokemon(data)
   
   def sanitize(self, name):
     dict = {
